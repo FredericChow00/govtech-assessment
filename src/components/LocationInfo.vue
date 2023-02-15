@@ -1,10 +1,8 @@
 <template>
-    <div>
-      <label for="location-select">Select a location:</label>
-      <select id="location-select" v-model="selectedLocation" @change="loadLocation">
-        <option v-for="location in locations" :value="location">{{ location.name }}</option>
-      </select>
-    </div>
+    <label for="location-select">Select a location:</label>
+    <select id="location-select" v-model="selectedLocation" @change="loadLocation, emitLocation">
+    <option v-for="location in locations" v-bind:key="location.name" :value="location">{{ location.name }}</option>
+    </select>
 </template>
 
 <script>
@@ -49,11 +47,11 @@ export default {
                 this.locations = locations;
             } catch(error) {
                 console.log(error);
-                alert("Error getting location!");
+                alert("Error getting location info!");
             }
         },
         emitLocation() {
-            this.$emit(getLocation, this.selectedLocation);
+            this.$emit("getLocation", this.selectedLocation);
         }
     }
 }

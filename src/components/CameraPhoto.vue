@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <h2>Traffic Camera photo at {{ selectedLocation.name }}</h2>
-        <img :src="cameraScreenshot">
-    </div>
+    <h2>Traffic Camera photo at {{ selectedLocation.name }}</h2>
+    <img :src="cameraScreenshot">
 </template>
 
 <script>
@@ -10,15 +8,11 @@ export default {
     props:['selectedLocation'],
     data() {
         return {
-            // jpg image of camera screenshot
-            cameraScreenshot: undefined,
+            cameraScreenshot: null
         }
     },
-    computed: {
-        getScreenshot() {
-            this.cameraScreenshot = this.selectedLocation.image;
-        }
+    created() {
+        this.cameraScreenshot = this.selectedLocation.image;
     },
 }
 </script>
-    

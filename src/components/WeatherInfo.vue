@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <h2>Weather info for {{ selectedLocation.name }}</h2>
-        <p>{{ weather.temperature }}</p>
-    </div>
+    <h2>Weather info for {{ selectedLocation.name }}</h2>
+    <p>{{ loadWeather.temperature }}</p>
 </template>
 
 <script>
@@ -15,26 +13,28 @@ export default {
             weather: undefined
         }
     },
-    computed: {
+    created() {
+        this.loadWeather();
+    },
+    methods: {
         async loadWeather() {
             try {
+                const selectedDateTime = this.selectedDateTime;
                 const response = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', {
                     params: {
                         date_time: selectedDateTime
                     },
                 });
-                const weather = response.data.items[0].forecasts.find(forecast =>
+                const loadedWeather = response.data.items[0].forecasts.find(forecast =>
                         forecast.area === this.selectedLocation.name);
-                this.weather = weather;
+                this.weather = loadedWeather;
             } catch (error) {
                 console.error(error);
                 alert('Error getting weather!');
             }
         },
-    },
-    methods: {
         emitWeather() {
-            this.$emit(getWeather, this.weather);
+            this.$emit("getWeather", this.weather);
         }
     }
 }
