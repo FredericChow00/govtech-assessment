@@ -1,18 +1,21 @@
 <template>
-	<div class="datetime">
-		<label for="date-select">Select a date:</label>
-		<select id="date-select" v-model="selectedDateTime" @change="emitDateTime">
-		<option v-for="dateInterval in dateIntervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
-		</select>
-		<label for="time-select">Select a time:</label>
-		<select id="time-select" v-model="selectedDateTime" @change="emitDateTime">
-		<option v-for="timeInterval in timeIntervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
-		</select>
+	<div class="datetimeinput">
+		<div class="grid-container">
+			<label for="date-select">Select a date:</label>
+			<label for="time-select">Select a time:</label>
+			<select id="date-select" v-model="selectedDateTime" @change="emitDateTime">
+				<option v-for="dateInterval in intervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
+			</select>
+			<select id="time-select" v-model="selectedDateTime" @change="emitDateTime">
+				<option v-for="timeInterval in intervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
+			</select>
+		</div>
 	</div>
 </template>
 
 <script>
 export default {
+	name: 'DateTimeInput',
 	data() {
 		return {
 			selectedDateTime: undefined,
@@ -20,22 +23,16 @@ export default {
 	},
 	// allows for user to choose a date up the 4 days ago 
 	computed: {
-		dateIntervals() {
+		intervals() {
 			const intervals = [];
-			const currentDate = new Date();
-			const earliestDate = new Date(currentDate - 4);
-			for (let i = 0; i < 4; i++) {
-			earliestDate.setDate(earliestDate.getDate() + i);
-			intervals.push(`${earliestDate.toISOString()}`);
-			}
-			return intervals;
-		},
-		timeIntervals() {
-			const intervals = [];
-			for (let i = 0; i < 23; i++) {
-			const start = new Date(this.selectedDateTime);
-			start.setHours(i, 0, 0, 0);
-			intervals.push(`${start.toISOString()}`);
+			for (let i = 4; i >= 0; i--) {
+				const start = new Date();
+				start.setDate(start.getDate() - i);
+				start.setHours(0, 0, 0, 0);
+				const end = new Date(start);
+				end.setDate(end.getDate() + 1);
+				let isoString = start.toISOString();
+				intervals.push(`${isoString.substring(0, isoString.length - 5)}`);
 			}
 			return intervals;
 		}
@@ -44,19 +41,33 @@ export default {
 		emitDateTime() {
 			this.$emit("getDateTime", this.selectedDateTime);
 		}
-	}
-}
+	},
+};
 </script>
 
-<style>
-	.datetime {
-		width: 200px;
-		padding: 20px;
-		margin: 100px auto;
-		background: grey;
-		border-radius: 10px;
-	}
-	.datetime label {
-		display: block;
-	}
+<style scoped>
+.datetimeinput {
+	top: 250px;
+	left: 20px;
+    width: 65%;
+	background: lightgrey;
+	display: inline-block;
+	padding: 20px;
+	margin: 10px auto;
+	border-radius: 10px;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
+}
+
+label {
+	align-self: center;
+}
+
+select {
+	width: 100%;
+}
 </style>
