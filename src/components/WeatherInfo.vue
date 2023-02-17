@@ -1,9 +1,10 @@
 <template>
-    <div class="weatherinfo">
-        <h2>Weather info for {{ selectedLocation.name }}</h2>
-        <p>{{ loadWeather.temperature }}</p>
+    <div class="weatherinfo p-3 rounded">
+      <h4>Weather forecast for {{ selectedLocation.name }}</h4>
+      <p v-if="this.weather">{{ this.weather.forecast }}</p>
+      <p v-else>Loading weather forecast...</p>
     </div>
-</template>
+  </template>
 
 <script>
 import axios from 'axios';
@@ -36,21 +37,13 @@ export default {
                 alert('Error getting weather!');
             }
         },
-        emitWeather() {
-            this.$emit("getWeather", this.weather);
-        }
     },
 };
 </script>
 
 <style scoped>
 .weatherinfo {
-    right: 50px;
-    width: 25%;
-    height: 30%;
-    padding: 20px;
-    margin: 100px auto;
-    background: lightgray;
+	background: lightgrey;
     border-radius: 10px;
 }
 </style>

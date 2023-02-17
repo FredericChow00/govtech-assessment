@@ -1,14 +1,18 @@
 <template>
-	<div class="datetimeinput">
-		<div class="grid-container">
-			<label for="date-select">Select a date:</label>
-			<label for="time-select">Select a time:</label>
-			<select id="date-select" v-model="selectedDateTime" @change="emitDateTime">
-				<option v-for="dateInterval in intervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
-			</select>
-			<select id="time-select" v-model="selectedDateTime" @change="emitDateTime">
-				<option v-for="timeInterval in intervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
-			</select>
+	<div class="datetimeinput container">
+		<div class="row">
+			<div class="col-6">
+				<label for="date-select" class="form-label">Select a date:</label>
+				<select id="date-select" v-model="selectedDateTime" @change="emitDateTime" class="form-select">
+					<option v-for="dateInterval in intervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
+				</select>
+			</div>
+			<div class="col-6">
+				<label for="time-select" class="form-label">Select a time:</label>
+				<select id="time-select" v-model="selectedDateTime" @change="emitDateTime" class="form-select">
+					<option v-for="timeInterval in intervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
+				</select>
+			</div>
 		</div>
 	</div>
 </template>
@@ -47,27 +51,8 @@ export default {
 
 <style scoped>
 .datetimeinput {
-	top: 250px;
-	left: 20px;
-    width: 65%;
-	background: lightgrey;
-	display: inline-block;
-	padding: 20px;
-	margin: 10px auto;
-	border-radius: 10px;
-}
-
-.grid-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 10px;
-}
-
-label {
-	align-self: center;
-}
-
-select {
-	width: 100%;
+  background: lightgrey;
+  padding: 10px;
+  border-radius: 10px;
 }
 </style>

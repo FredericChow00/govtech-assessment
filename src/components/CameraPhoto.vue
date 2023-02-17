@@ -1,7 +1,8 @@
 <template>
-    <div class="cameraphoto">
-        <h2>Traffic Camera photo at {{ selectedLocation.name }}</h2>
-        <img class="camera-image" :src="cameraScreenshot">
+    <div class="cameraphoto p-3 rounded">
+        <h4 class="mb-3">Traffic Camera photo at {{ selectedLocation.name }}</h4>
+        <img v-if="this.cameraScreenshot" class="cameraimage img-fluid rounded" :src="this.cameraScreenshot">
+        <p v-else>Loading traffic camera photo...</p>
     </div>
 </template>
 
@@ -11,7 +12,7 @@ export default {
     props:['selectedLocation'],
     data() {
         return {
-            cameraScreenshot: null
+            cameraScreenshot: undefined
         }
     },
     created() {
@@ -19,6 +20,7 @@ export default {
     },
     watch: {
         selectedLocation: function() {
+            this.cameraScreenshot = undefined;
             this.cameraScreenshot = this.selectedLocation.image;
         }
     }
@@ -26,21 +28,12 @@ export default {
 </script>
 
 <style scoped>
-.cameraphoto {
-	top: 500px;
-	left: 20px;
-    width: 65%;
-	background: lightgrey;
-	display: inline-block;
-	padding: 20px;
-	margin: 10px auto;
-	border-radius: 10px;
+.cameraimage {
+    width: 100%;
+    object-fit: contain;
 }
-.camera-image {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    padding: 10px;
+.cameraphoto {
+	background: lightgrey;
+    border-radius: 10px;
 }
 </style>

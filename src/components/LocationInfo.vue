@@ -1,11 +1,12 @@
 <template>
     <div class="locationinfo">
-        <label for="location-select">Select a location:
-            <select v-if="this.locations.length > 0" id="location-select" v-model="selectedLocation" @change="emitLocation">
-                <option v-for="location in this.locations" v-bind:key="location" :value="location">{{ location.name }}</option>
+        <div class="form-group">
+            <label for="location-select" class="form-label">Select a location:</label>
+            <select class="form-select" v-if="locations.length > 0" id="location-select" v-model="selectedLocation" @change="emitLocation">
+                <option v-for="location in locations" v-bind:key="location" :value="location">{{ location.name }}</option>
             </select>
-            <p v-else>Loading locations available...</p>
-        </label>
+            <p v-else >Loading locations available...</p>
+        </div>
     </div>
 </template>
 
@@ -82,8 +83,8 @@ export default {
                         console.log(`new ${location.name}`);
                     }
                 }));
-                // remove locations with no match 
-                locations = Array.from(new Set(locations.filter(location => location.name)));
+                // remove locations with no match and sort by location name
+                locations = Array.from(new Set(locations.filter(location => location.name))).sort((l1, l2) => l1.name.localeCompare(l2.name));
                 //console.log(locations);
             } catch(error) {
                 console.log(error);
@@ -110,12 +111,8 @@ export default {
     
 <style scoped>
 .locationinfo {
-	left: 20px;
-    width: 65%;
 	background: lightgrey;
-	display: inline-block;
-	padding: 20px;
-	margin: 10px auto;
+	padding: 10px;
 	border-radius: 10px;
 }
 </style>
