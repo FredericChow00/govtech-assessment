@@ -9,11 +9,11 @@ for the specified date and time of up to 3 months before the current date and 1 
 1. Pick a date
 2. Pick a time for the date
 
->> You are only allowed to view up to 1 day in advance and 3 months before the current date
+> You are only allowed to view up to 1 day in advance and 3 months before the current date
 
 3. Choose a location that you would wish to view
 
->> There may be repeated location names but each option shows a different part of the area
+> There may be repeated location names but each option shows a different part of the area
 
 Afterwhich, the respective traffic camera and weather forecast for that specified date and time would be loaded.
 
