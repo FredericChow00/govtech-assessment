@@ -1,6 +1,9 @@
-# govtech-assessment
+# Traffic Camera and Weather Forecast
 
-## Project setup
+This is a mini web application that shows the traffic camera screenshot and weather forecasts 
+for the specified date and time of up to 3 months before the current date and 1 day in advanced.
+
+## Setup
 ```
 yarn install
 ```
@@ -10,15 +13,3 @@ yarn install
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
