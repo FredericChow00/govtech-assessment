@@ -3,14 +3,14 @@
 		<div class="row">
 			<div class="col-6">
 				<label for="date-select" class="form-label">Select a date:</label>
-				<select id="date-select" v-model="selectedDateTime" @change="emitDateTime" class="form-select">
-					<option v-for="dateInterval in intervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
+				<select id="date-select" v-model="selectedDate" class="form-select">
+					<option v-for="dateInterval in dateIntervals" v-bind:key="dateInterval" :value="dateInterval">{{ dateInterval }}</option>
 				</select>
 			</div>
 			<div class="col-6">
 				<label for="time-select" class="form-label">Select a time:</label>
-				<select id="time-select" v-model="selectedDateTime" @change="emitDateTime" class="form-select">
-					<option v-for="timeInterval in intervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
+				<select id="time-select" v-model="selectedTime" @change="emitDateTime" class="form-select">
+					<option v-for="timeInterval in timeIntervals" v-bind:key="timeInterval" :value="timeInterval">{{ timeInterval }}</option>
 				</select>
 			</div>
 		</div>
@@ -22,29 +22,40 @@ export default {
 	name: 'DateTimeInput',
 	data() {
 		return {
-			selectedDateTime: undefined,
+			selectedDate: undefined,
+			selectedTime: undefined,
 		}
 	},
 	// allows for user to choose a date up the 4 days ago 
 	computed: {
-		intervals() {
+		dateIntervals() {
 			const intervals = [];
-			for (let i = 4; i >= 0; i--) {
+			for (let i = 120; i >= 0; i--) {
 				const start = new Date();
 				start.setDate(start.getDate() - i);
 				start.setHours(0, 0, 0, 0);
-				const end = new Date(start);
-				end.setDate(end.getDate() + 1);
 				let isoString = start.toISOString();
-				intervals.push(`${isoString.substring(0, isoString.length - 5)}`);
+				intervals.push(`${isoString.substring(0, isoString.length - 14)}`);
 			}
 			return intervals;
+		},
+		timeIntervals() {
+			const times = [];
+			for (let i = 0; i < 24; i++) {
+				const hour = i < 10 ? `0${i}` : i;
+				for (let j = 0; j < 60; j += 15) {
+					const minute = j < 10 ? `0${j}` : j;
+					times.push(`${hour}:${minute}`);
+				}
+			}
+			return times;
 		}
 	},
 	methods: {
 		emitDateTime() {
-			this.$emit("getDateTime", this.selectedDateTime);
-		}
+			// put in ISOString format
+			const dateTime = `${this.selectedDate}T${this.selectedTime}:00`;
+			this.$emit('getDateTime', dateTime);		}
 	},
 };
 </script>
