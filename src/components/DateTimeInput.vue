@@ -26,11 +26,11 @@ export default {
 			selectedTime: undefined,
 		}
 	},
-	// allows for user to choose a date up the 4 days ago 
 	computed: {
+		// up to 3 months ago and 1 day in advance
 		dateIntervals() {
 			const intervals = [];
-			for (let i = 120; i >= 0; i--) {
+			for (let i = -2; i < 120; i++) {
 				const start = new Date();
 				start.setDate(start.getDate() - i);
 				start.setHours(0, 0, 0, 0);
@@ -39,11 +39,12 @@ export default {
 			}
 			return intervals;
 		},
+		// 30 min time intervals (since weather forecast only in 30 min intervals)
 		timeIntervals() {
 			const times = [];
 			for (let i = 0; i < 24; i++) {
 				const hour = i < 10 ? `0${i}` : i;
-				for (let j = 0; j < 60; j += 15) {
+				for (let j = 0; j < 60; j += 30) {
 					const minute = j < 10 ? `0${j}` : j;
 					times.push(`${hour}:${minute}`);
 				}
